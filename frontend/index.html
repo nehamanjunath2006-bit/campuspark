@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusPark | Smart Campus Parking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- ==========================================
+     AUTH SCREEN
+========================================== -->
+
+    <section id="authScreen" class="auth-screen">
+
+        <div class="auth-brand">
+            <div class="brand-mark">CP</div>
+            <div>
+                <h1>CAMPUSPARK</h1>
+                <p>Smart Campus Parking</p>
+            </div>
+        </div>
+
+        <div class="auth-card">
+
+            <div class="auth-copy">
+                <span class="eyebrow">CAMPUS MOBILITY</span>
+                <h2>Park smarter.<br>Move easier.</h2>
+                <p>
+                    Manage your vehicles, find parking, and keep
+                    every parking activity in one place.
+                </p>
+            </div>
+
+            <div class="auth-tabs">
+                <button id="loginTab" class="auth-tab active" onclick="showAuth('login')">
+                    Login
+                </button>
+
+                <button id="registerTab" class="auth-tab" onclick="showAuth('register')">
+                    Register
+                </button>
+            </div>
+
+            <!-- LOGIN -->
+
+            <form id="loginForm" class="auth-form">
+
+                <label>Email or Student ID</label>
+                <input id="loginIdentity" type="text" placeholder="you@college.edu" required>
+
+                <label>Password</label>
+                <input id="loginPassword" type="password" placeholder="Enter password" required>
+
+                <button class="primary-btn" type="submit">
+                    Sign in
+                </button>
+
+            </form>
+
+            <!-- REGISTER -->
+
+            <form id="registerForm" class="auth-form hidden">
+
+                <label>Full Name</label>
+                <input id="regName" type="text" required>
+
+                <label>Student ID</label>
+                <input id="regStudentId" type="text" required>
+
+                <label>College Email</label>
+                <input id="regEmail" type="email" required>
+
+                <label>Phone Number</label>
+                <input id="regPhone" type="text" required>
+
+                <label>Password</label>
+                <input id="regPassword" type="password" minlength="6" required>
+
+                <button class="primary-btn" type="submit">
+                    Create account
+                </button>
+
+            </form>
+
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+     APPLICATION
+========================================== -->
+
+    <div id="app" class="app hidden">
+
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-mark small">CP</div>
+                <div>
+                    <strong>CAMPUSPARK</strong>
+                    <span>Smart Campus Parking</span>
+                </div>
+            </div>
+
+            <nav>
+
+                <button data-page="dashboard" class="nav-item active" onclick="openPage('dashboard')">
+                    <span>⌂</span> Dashboard
+                </button>
+
+                <button data-page="vehicles" class="nav-item" onclick="openPage('vehicles')">
+                    <span>🚗</span> My Vehicles
+                </button>
+
+                <button data-page="parking" class="nav-item" onclick="openPage('parking')">
+                    <span>🅿</span> Park Vehicle
+                </button>
+
+                <button data-page="search" class="nav-item" onclick="openPage('search')">
+                    <span>⌕</span> Find Vehicle
+                </button>
+
+                <button data-page="history" class="nav-item" onclick="openPage('history')">
+                    <span>◷</span> Parking History
+                </button>
+
+                <button data-page="pass" class="nav-item" onclick="openPage('pass')">
+                    <span>🎫</span> Parking Pass
+                </button>
+
+                <button id="adminNav" data-page="admin" class="nav-item hidden" onclick="openPage('admin')">
+                    <span>⚙</span> Admin Panel
+                </button>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <button class="nav-item" onclick="logout()">
+                    <span>↪</span> Logout
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <main class="main">
+
+            <header class="topbar">
+
+                <div>
+                    <span class="eyebrow" id="pageEyebrow">
+                        OVERVIEW
+                    </span>
+
+                    <h1 id="pageTitle">
+                        Dashboard
+                    </h1>
+                </div>
+
+                <div class="profile">
+
+                    <div id="avatar" class="avatar">
+                        N
+                    </div>
+
+                    <div>
+                        <strong id="userName">User</strong>
+                        <small id="userRole">Student</small>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- ======================================
+             DASHBOARD
+        ======================================= -->
+
+            <section id="page-dashboard" class="page">
+
+                <div class="hero">
+
+                    <div>
+                        <span class="status-pill">
+                            <i></i> SYSTEM ONLINE
+                        </span>
+
+                        <h2>
+                            Welcome back,
+                            <span id="welcomeName">Student</span> 👋
+                        </h2>
+
+                        <p>
+                            Your campus parking overview is ready.
+                        </p>
+                    </div>
+
+                    <button class="hero-btn" onclick="openPage('parking')">
+                        Find a Parking Slot →
+                    </button>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <span>Available Slots</span>
+                        <strong id="availableCount">0</strong>
+                        <small>Ready for parking</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Occupied Slots</span>
+                        <strong id="occupiedCount">0</strong>
+                        <small>Currently in use</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>My Vehicles</span>
+                        <strong id="vehicleCount">0</strong>
+                        <small>Registered vehicles</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Parking History</span>
+                        <strong id="historyCount">0</strong>
+                        <small>Total parking visits</small>
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-grid">
+
+                    <div class="panel">
+
+                        <div class="panel-heading">
+                            <div>
+                                <span class="eyebrow">CURRENT STATUS</span>
+                                <h3>My Parking</h3>
+                            </div>
+
+                            <span id="currentBadge" class="badge neutral">
+                                NOT PARKED
+                            </span>
+                        </div>
+
+                        <div id="currentParking" class="current-parking empty-state">
+                            <div class="empty-icon">🅿️</div>
+                            <h3>No active parking</h3>
+                            <p>
+                                Park one of your registered vehicles
+                                to see it here.
+                            </p>
+                            <button class="outline-btn" onclick="openPage('parking')">
+                                Park Vehicle
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel quick-panel">
+
+                        <span class="eyebrow">QUICK ACTIONS</span>
+                        <h3>What do you want to do?</h3>
+
+                        <button onclick="openPage('vehicles')">
+                            <span>🚗</span>
+                            Manage My Vehicles
+                            <b>→</b>
+                        </button>
+
+                        <button onclick="openPage('history')">
+                            <span>◷</span>
+                            View Parking History
+                            <b>→</b>
+                        </button>
+
+                        <button onclick="openPage('search')">
+                            <span>⌕</span>
+                            Find a Vehicle
+                            <b>→</b>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+             VEHICLES
+        ======================================= -->
+
+            <section id="page-vehicles" class="page hidden">
+
+                <div class="page-intro">
+                    <span class="eyebrow">VEHICLE MANAGEMENT</span>
+                    <h2>Your registered vehicles</h2>
+                    <p>
+                        Add your car, bike, scooter or other vehicle.
+                    </p>
+                </div>
+
+                <div id="vehicleList" class="vehicle-grid">
+                </div>
+
+                <div class="panel add-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <span class="eyebrow">NEW VEHICLE</span>
+                            <h3>Add Vehicle</h3>
+                        </div>
+                    </div>
+
+                    <form id="vehicleForm" class="vehicle-form">
+
+                        <div>
+                            <label>Vehicle Number</label>
+                            <input id="vehicleNumber" placeholder="KA01AB1234" required>
+                        </div>
+
+                        <div>
+                            <label>Vehicle Type</label>
+                            <select id="vehicleType" required>
+                                <option value="CAR">Car</option>
+                                <option value="BIKE">Bike</option>
+                                <option value="SCOOTER">Scooter</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label>Model</label>
+                            <input id="vehicleModel" placeholder="Vehicle model">
+                        </div>
+
+                        <div>
+                            <label>Color</label>
+                            <input id="vehicleColor" placeholder="Vehicle color">
+                        </div>
+
+                        <div>
+                            <label>Fuel Type</label>
+                            <select id="fuelType">
+                                <option value="">Select</option>
+                                <option>Petrol</option>
+                                <option>Diesel</option>
+                                <option>Electric</option>
+                                <option>Hybrid</option>
+                            </select>
+                        </div>
+
+                        <button class="primary-btn" type="submit">
+                            + Add Vehicle
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+             PARKING
+        ======================================= -->
+
+            <section id="page-parking" class="page hidden">
+
+                <div class="page-intro">
+                    <span class="eyebrow">PARKING</span>
+                    <h2>Choose your parking slot</h2>
+                    <p>
+                        Select one of your vehicles and an available
+                        compatible slot.
+                    </p>
+                </div>
+
+                <div class="parking-layout">
+
+                    <div class="panel">
+
+                        <span class="eyebrow">STEP 01</span>
+                        <h3>Select Vehicle</h3>
+
+                        <select id="parkVehicleSelect" class="large-select">
+                            <option value="">
+                                Select a registered vehicle
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panel-heading">
+                            <div>
+                                <span class="eyebrow">STEP 02</span>
+                                <h3>Select Slot</h3>
+                            </div>
+
+                            <div class="legend">
+                                <span>
+                                    <i class="green"></i> Available
+                                </span>
+
+                                <span>
+                                    <i class="red"></i> Occupied
+                                </span>
+                            </div>
+                        </div>
+
+                        <div id="slotGrid" class="slot-grid">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="selectedSlotBox" class="selected-box hidden">
+
+                    <div>
+                        <span class="eyebrow">SELECTED</span>
+                        <h3>
+                            Slot <span id="selectedSlot">-</span>
+                        </h3>
+                    </div>
+
+                    <button class="primary-btn" onclick="confirmParking()">
+                        Park Vehicle
+                    </button>
+
+                </div>
+
+
+                <div id="removeBox" class="panel remove-card hidden">
+
+                    <div>
+                        <span class="eyebrow">CURRENT PARKING</span>
+                        <h3>Vehicle is currently parked</h3>
+                        <p id="removeDetails"></p>
+                    </div>
+
+                    <button class="danger-btn" onclick="removeVehicle()">
+                        Remove Vehicle
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+             SEARCH
+        ======================================= -->
+
+            <section id="page-search" class="page hidden">
+
+                <div class="page-intro">
+                    <span class="eyebrow">VEHICLE LOCATOR</span>
+                    <h2>Find a vehicle</h2>
+                    <p>
+                        Search using a registered vehicle number.
+                    </p>
+                </div>
+
+                <div class="search-box">
+
+                    <input id="searchVehicleNumber" placeholder="Enter vehicle number">
+
+                    <button class="primary-btn" onclick="searchVehicle()">
+                        Search Vehicle
+                    </button>
+
+                </div>
+
+                <div id="searchResult" class="search-result hidden">
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+             HISTORY
+        ======================================= -->
+
+            <section id="page-history" class="page hidden">
+
+                <div class="page-intro">
+                    <span class="eyebrow">ACTIVITY</span>
+                    <h2>Parking History</h2>
+                    <p>
+                        Every time your vehicles entered and left
+                        campus parking.
+                    </p>
+                </div>
+
+                <div class="panel history-panel">
+
+                    <div class="history-header">
+
+                        <div>
+                            <h3>My Parking Activity</h3>
+                            <span id="historySubtitle">
+                                All parking records
+                            </span>
+                        </div>
+
+                        <input id="historySearch" placeholder="Filter vehicle..." oninput="renderHistory()">
+
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Vehicle</th>
+                                    <th>Type</th>
+                                    <th>Slot</th>
+                                    <th>Parked At</th>
+                                    <th>Removed At</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="historyTable">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+             PARKING PASS
+        ======================================= -->
+
+            <section id="page-pass" class="page hidden">
+
+                <div class="page-intro">
+                    <span class="eyebrow">ACTIVE PASS</span>
+                    <h2>Parking Pass</h2>
+                    <p>
+                        Your current parking information.
+                    </p>
+                </div>
+
+                <div id="passCard" class="pass-card">
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+             ADMIN
+        ======================================= -->
+
+            <section id="page-admin" class="page hidden">
+
+                <div class="page-intro">
+                    <span class="eyebrow">ADMINISTRATION</span>
+                    <h2>Admin Panel</h2>
+                    <p>
+                        Campus parking system overview.
+                    </p>
+                </div>
+
+                <div class="stats-grid admin-stats">
+
+                    <div class="stat-card">
+                        <span>Students</span>
+                        <strong id="adminUsers">0</strong>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Vehicles</span>
+                        <strong id="adminVehicles">0</strong>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Available Slots</span>
+                        <strong id="adminAvailable">0</strong>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Active Parking</span>
+                        <strong id="adminActive">0</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
